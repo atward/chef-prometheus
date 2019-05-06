@@ -63,10 +63,11 @@ template node['prometheus']['flags']['config.file'] do
   notifies  :reload, 'service[prometheus]'
 end
 
-# monitor our server instance
+# monitor our server instance. Add host if listen-address is just a port
+local_scrape_host = (node['prometheus']['flags']['web.listen-address'] =~ /^:[0-9]+/) ? 'localhost' : ''
 prometheus_job 'prometheus' do
   scrape_interval   '15s'
-  target            "localhost#{node['prometheus']['flags']['web.listen-address']}"
+  target            "#{local_scrape_host}#{node['prometheus']['flags']['web.listen-address']}"
   metrics_path      node['prometheus']['flags']['web.telemetry-path']
 end
 
