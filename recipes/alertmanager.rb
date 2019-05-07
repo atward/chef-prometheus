@@ -91,10 +91,14 @@ when 'systemd'
     ['debian'] => %w(debian default alertmanager)
   )
 
+  execute 'systemctl daemon-reload' do
+    action :nothing
+  end
   template '/etc/systemd/system/alertmanager.service' do
     source 'systemd/alertmanager.service.erb'
     mode '0644'
     variables(:sysconfig_file => "/etc/#{conf_dir}/#{env_file}")
+    notifies :run, 'execute[systemctl daemon-reload]', :immediately
     notifies :restart, 'service[alertmanager]', :delayed
   end
 

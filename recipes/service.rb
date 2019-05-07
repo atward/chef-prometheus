@@ -41,10 +41,14 @@ when 'systemd'
     ['debian'] => %w(debian default prometheus)
   )
 
+  execute 'systemctl daemon-reload' do
+    action :nothing
+  end
   template '/etc/systemd/system/prometheus.service' do
     source 'systemd/prometheus.service.erb'
     mode '0644'
     variables(:sysconfig_file => "/etc/#{conf_dir}/#{env_file}")
+    notifies :run, 'execute[systemctl daemon-reload]', :immediately
     notifies :restart, 'service[prometheus]', :delayed
   end
 
