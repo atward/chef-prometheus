@@ -26,7 +26,7 @@ user node['prometheus']['user'] do
   not_if { node['prometheus']['use_existing_user'] == true || node['prometheus']['user'] == 'root' }
 end
 
-directory node['prometheus']['dir'] do
+directory node['prometheus']['alertmanager']['dir'] do
   owner node['prometheus']['user']
   group node['prometheus']['group']
   mode '0755'

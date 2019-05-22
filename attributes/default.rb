@@ -227,7 +227,8 @@ default['prometheus']['flags']['web.user-assets']                               
 default['prometheus']['alertmanager']['install_method']                                   = 'binary'
 
 # Location of Alertmanager binary
-default['prometheus']['alertmanager']['binary']                                           = "#{node['prometheus']['dir']}/alertmanager"
+default['prometheus']['alertmanager']['dir']                                              = '/opt/alertmanager'
+default['prometheus']['alertmanager']['binary']                                           = "#{node['prometheus']['alertmanager']['dir']}/alertmanager"
 
 # Alertmanager version to build
 default['prometheus']['alertmanager']['version']                                          = '0.14.0'
@@ -252,10 +253,10 @@ default['prometheus']['alertmanager']['checksum']                               
 default['prometheus']['alertmanager']['file_extension']                                   = ''
 
 # Alertmanager configuration file name.
-default['prometheus']['alertmanager']['config.file']                                      = "#{node['prometheus']['dir']}/alertmanager.yml"
+default['prometheus']['alertmanager']['config.file']                                      = "#{node['prometheus']['alertmanager']['dir']}/alertmanager.yml"
 
 # Alertmanager configuration storage directory
-default['prometheus']['alertmanager']['storage.path']                                     = "#{node['prometheus']['dir']}/data"
+default['prometheus']['alertmanager']['storage.path']                                     = "#{node['prometheus']['alertmanager']['dir']}/data"
 
 # Alertmanager configuration chef template name.
 default['prometheus']['alertmanager']['config_cookbook_name']                             = 'prometheus'
